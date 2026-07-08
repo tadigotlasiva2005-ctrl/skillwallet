@@ -1,0 +1,98 @@
+// HouseHunt - Smart House Rental & Real Estate Platform
+// Prisma schema (SQLite)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id          String     @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  avatar      String
+  title       String
+  company     String
+  rating      Float      @default(0)
+  totalSales  Int        @default(0)
+  verified    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  properties  Property[]
+  reviews     Review[]
+}
+
+model Property {
+  id            String     @id @default(cuid())
+  title         String
+  description   String
+  price         Int
+  type          String
+  status        String
+  bedrooms      Int
+  bathrooms     Int
+  area          Int
+  parking       Int
+  furnished     Boolean    @default(false)
+  floor         Int        @default(0)
+  balcony       Boolean    @default(false)
+  yearBuilt     Int
+  facing        String
+  amenities     String
+  images        String
+  address       String
+  city          String
+  state         String
+  country       String
+  zipCode       String
+  lat           Float
+  lng           Float
+  featured      Boolean    @default(false)
+  premium       Boolean    @default(false)
+  verified      Boolean    @default(true)
+  availability  String     @default("available")
+  rating        Float      @default(0)
+  views         Int        @default(0)
+  createdAt     DateTime   @default(now())
+  agentId       String
+  agent         Agent      @relation(fields: [agentId], references: [id])
+  reviews       Review[]
+
+  @@index([city])
+  @@index([status])
+  @@index([type])
+  @@index([featured])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  agentId    String?
+  agent      Agent?   @relation(fields: [agentId], references: [id])
+  author     String
+  avatar     String
+  rating     Int
+  comment    String
+  date       DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSub {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
