@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,24 +16,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
-  icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
-  },
+  title: "HouseHunt — Smart House Rental & Real Estate Platform",
+  description:
+    "Discover, rent, buy, and manage premium properties with HouseHunt. Advanced search, verified listings, real-time chat, and smart dashboards for users, owners, and admins.",
+  keywords: [
+    "HouseHunt",
+    "real estate",
+    "rent property",
+    "buy house",
+    "property listings",
+    "apartments",
+    "villas",
+    "real estate platform",
+  ],
+  authors: [{ name: "HouseHunt Team" }],
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "HouseHunt — Smart House Rental & Real Estate Platform",
+    description:
+      "Discover, rent, buy, and manage premium properties with advanced search, verified listings, and smart dashboards.",
+    siteName: "HouseHunt",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "HouseHunt — Smart Real Estate Platform",
+    description: "Rent, buy, and manage premium properties with HouseHunt.",
   },
 };
 
@@ -45,8 +54,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        {children}
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          {children}
+          <Toaster />
+          <SonnerToaster position="top-right" richColors closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );
